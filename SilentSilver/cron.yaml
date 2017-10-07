@@ -1,5 +1,0 @@
-version: 1
-cron: 
-  - name: "Send Flowers"
-    url: "/api/Values"
-    schedule: "*/1 * * * *"

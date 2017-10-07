@@ -3,34 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace SilentSilver.Controllers
 {
- //   [Authorize]
     public class ValuesController : ApiController
     {
         // GET api/values
-        public IEnumerable<string> Get()
+        public string Get()
         {
-            
-            return new string[] { "counter", WebApiApplication.ValueRequestCount.ToString() };
+            return $"counter is { WebApiApplication.ValueRequestCount.ToString() }";
         }
 
-        // GET api/values/5
-        public string Get(int id)
+        public void Post()
         {
-            return "value";
-        }
-
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-            WebApiApplication.ValueRequestCount++;
-        }
-        public void Post (  )
-        {
-            WebApiApplication.ValueRequestCount++;
+            // WebApiApplication.ValueRequestCount++;
         }
 
         // PUT api/values/5
@@ -42,5 +31,38 @@ namespace SilentSilver.Controllers
         public void Delete(int id)
         {
         }
+    }
+
+    [Route("api/SilverMessageLibrary/OrderAccepted")]
+    public class OrderAcceptedController : ApiController
+    {
+        public HttpResponseMessage Post(SilverMessageLibrary.OrderAccepted messageData)
+        {
+            try
+            {
+                WebApiApplication.ValueRequestCount++;
+                if (WebApiApplication.ValueRequestCount % 56 != 0)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK);
+
+                }
+            }
+            catch (System.Exception) { }
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
+
+    public class ManagementController : ApiController
+    {
+
+        public void Post()
+        {
+            var client = new PreloadClient();
+
+            client.Preload(new string[] { this.Request.RequestUri.AbsoluteUri.Replace("/Management", "") });
+
+        }
+
+
     }
 }

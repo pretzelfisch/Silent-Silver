@@ -229,3 +229,4 @@ node_modules/*
 
 test_out/
 Tests/elasticsearch/
+/ChattySilver/*.config
